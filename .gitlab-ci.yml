@@ -1,3 +1,6 @@
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+
 variables:
   IMAGE_REPO: "nexus.faridzarazvand.ir/kelaasor"
   IMAGE_NAME: "nodetest"
@@ -6,7 +9,13 @@ variables:
 stages:
   - build
   - test
+  - security_scan
   - deploy
+
+sast:
+  tags:
+    - kelaasor
+  stage: security_scan
 
 build-job:
   tags:
