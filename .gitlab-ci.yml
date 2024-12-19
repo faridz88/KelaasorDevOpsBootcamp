@@ -52,10 +52,11 @@ lint-test-job:   # This job also runs in the test stage.
 deploy-job:
   tags:
     - kelaasor
-  image: getechnies/alpine-ssh
+  image: alpine
   stage: deploy
   environment: production
   before_script:
+    - apk add ssh
     - eval $(ssh-agent -s)
     - chmod 400 $SSH_PRIVATE_KEY
     - ssh-add "$SSH_PRIVATE_KEY"
