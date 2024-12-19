@@ -1,3 +1,8 @@
+variables:
+  IMAGE_REPO: "nexus.faridzarazvand.ir/kelaasor"
+  IMAGE_NAME: "nodetest"
+  IMAGE_TAG: "0.1"
+
 stages:
   - build
 
@@ -7,4 +12,4 @@ build-job:
   # image: dind:27
   stage: build
   script:
-    - docker build -t nexux.faridzarazvand.ir/kelaasor/nodetest:0.1 .
+    - docker build -t $IMAGE_REPO/$IMAGE_NAME:$IMAGE_TAG .
