@@ -47,6 +47,10 @@ unit-test-job:   # This job runs in the test stage.
       - test-results/junit.xml
     reports:
       junit: test-results/junit.xml
+  cache:
+    paths:
+      - node_modules
+    key: $CI_COMMIT_REF_NAME # default key is default
 
 lint-test-job:   # This job also runs in the test stage.
   tags:
