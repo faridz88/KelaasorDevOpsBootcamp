@@ -51,6 +51,10 @@ unit-test-job:   # This job runs in the test stage.
     paths:
       - node_modules
     key: $CI_COMMIT_REF_NAME # default key is default
+#  [[ runners ]] config.toml use docker volume
+#    cache_dir = "/cache"
+#    [[runners.docker]]
+#      volume = ["/cache"]
 
 lint-test-job:   # This job also runs in the test stage.
   tags:
