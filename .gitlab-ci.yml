@@ -9,7 +9,9 @@ stages:
 build-job:
   tags:
     - kelaasor
-  # image: dind:27
+  # image: node:18-alpine
   stage: build
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASS $IMAGE_REPO
   script:
-    - docker build -t $IMAGE_REPO/$IMAGE_NAME:$IMAGE_TAG .
+    - docker push $IMAGE_REPO/$IMAGE_NAME:$IMAGE_TAG
