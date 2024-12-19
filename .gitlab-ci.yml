@@ -1,0 +1,5 @@
+build-job:
+  tags:
+    - kelaasor
+  script:
+    - docker build -t nexux.faridzarazvand.ir/kelaasor/nodetest:0.1 .

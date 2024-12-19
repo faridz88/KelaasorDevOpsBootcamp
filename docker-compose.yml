@@ -1,0 +1,8 @@
+services:
+  cicd-nodejs:
+    image: $IMAGE_REPO/$IMAGE_NAME:$IMAGE_TAG
+    environment:
+      DEPLOY_ENV: $DEPLOY_ENV
+    ports:
+      - $PORT:8080
+    restart: unless-stopped
