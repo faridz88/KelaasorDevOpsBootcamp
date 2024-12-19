@@ -40,6 +40,13 @@ unit-test-job:   # This job runs in the test stage.
     - npm install --dev
   script:
     - npm test
+  artifacts:
+    when: always
+    expire_in: "30 days"
+    paths:
+      - test-results/junit.xml
+    reports:
+      junit: test-results/junit.xml
 
 lint-test-job:   # This job also runs in the test stage.
   tags:
