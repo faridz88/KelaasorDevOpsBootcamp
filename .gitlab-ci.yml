@@ -47,3 +47,26 @@ lint-test-job:   # This job also runs in the test stage.
     - echo "Linting code... This will take about 10 seconds."
     - sleep 1
     - echo "No lint issues found."
+
+deploy-job:
+  tags:
+    - kelaasor
+  image: getechnies/alpine-ssh
+  stage: deploy
+  environment: production
+  before_script:
+    - eval $(ssh-agent -s)
+    - chmod 400 $SSH_PRIVATE_KEY
+    - ssh-add "$SSH_PRIVATE_KEY"
+    - ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_HOST "
+        mkdir -p /root/node-deploy/ &&
+        sed -i 's|DEPLOY_ENV=.*|DEPLOY_ENV=$CI_ENVIRONMENT_NAME|' /root/node-deploy/.env &&
+        sed -i 's|IMAGE_REPO=.*|IMAGE_REPO=$IMAGE_REPO|' /root/node-deploy/.env &&
+        sed -i 's|IMAGE_NAME=.*|IMAGE_NAME=$IMAGE_NAME|' /root/node-deploy/.env &&
+        sed -i 's|IMAGE_TAG=.*|IMAGE_TAG=$IMAGE_TAG|' /root/node-deploy/.env"
+  script:
+    - scp -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY ./docker-compose.yml $SSH_USER@${SERVER_HOST}:/root/node-deploy/
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY $SSH_USER@$SERVER_HOST "
+        docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASS $IMAGE_REPO && 
+        docker compose -f /root/node-deploy/docker-compose.yml down && 
+        docker compose -f /root/node-deploy/docker-compose.yml up -d"
