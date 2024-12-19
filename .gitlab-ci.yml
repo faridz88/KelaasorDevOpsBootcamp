@@ -6,6 +6,7 @@ variables:
 stages:
   - build
   - test
+  - deploy
 
 build-job:
   tags:
