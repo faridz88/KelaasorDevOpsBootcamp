@@ -1,5 +1,9 @@
+stages:
+  - build
+
 build-job:
   tags:
     - kelaasor
+  # image: dind:27
   script:
     - docker build -t nexux.faridzarazvand.ir/kelaasor/nodetest:0.1 .
