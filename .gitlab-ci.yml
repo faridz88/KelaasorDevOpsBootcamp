@@ -65,12 +65,12 @@ lint-test-job:   # This job also runs in the test stage.
     - sleep 1
     - echo "No lint issues found."
 
-deploy-job:
+.deploy:
   tags:
     - kelaasor
   image: alpine
   stage: deploy
-  environment: production
+  # environment: production
   before_script:
     - apk add openssh
     - eval $(ssh-agent -s)
@@ -88,3 +88,21 @@ deploy-job:
         docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASS $IMAGE_REPO && 
         docker compose -f /root/node-deploy/docker-compose.yml down && 
         docker compose -f /root/node-deploy/docker-compose.yml up -d"
+
+deploy_to_dev:
+  extends: .deploy
+  environment: dev
+  variables:
+    PORT: $APP_PORT
+
+deploy_to_stage:
+  extends: .deploy
+  environment: stage
+  variables:
+    PORT: $APP_PORT
+
+deploy_to_production:
+  extends: .deploy
+  environment: production
+  variables:
+    PORT: $APP_PORT
