@@ -9,6 +9,14 @@ stages:
 build-job:
   tags:
     - kelaasor
+  # image: dind:27
+  stage: build
+  script:
+    - docker build -t $IMAGE_REPO/$IMAGE_NAME:$IMAGE_TAG .
+
+push-job:       # This job runs in the build stage, which runs first.
+  tags:
+    - kelaasor
   # image: node:18-alpine
   stage: build
   before_script:
