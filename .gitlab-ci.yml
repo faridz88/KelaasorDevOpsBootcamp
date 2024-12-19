@@ -1,7 +1,7 @@
 variables:
   IMAGE_REPO: "nexus.faridzarazvand.ir/kelaasor"
   IMAGE_NAME: "nodetest"
-  IMAGE_TAG: "0.1"
+  IMAGE_TAG: "$CI_COMMIT_SHORT_SHA"
 
 stages:
   - build
