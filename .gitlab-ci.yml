@@ -56,7 +56,7 @@ deploy-job:
   stage: deploy
   environment: production
   before_script:
-    - apk add ssh
+    - apk add openssh
     - eval $(ssh-agent -s)
     - chmod 400 $SSH_PRIVATE_KEY
     - ssh-add "$SSH_PRIVATE_KEY"
