@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodetest
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: nodetest
+  template:
+    metadata:
+      labels:
+        app: nodetest
+    spec:
+      containers:
+      - image: nexus.faridzarazvand.ir/kelaasor/nodetest:39a3ad4b
+        name: nodetest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: regcred
